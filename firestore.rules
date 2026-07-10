@@ -1,0 +1,46 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /events/{eventId} {
+      
+      // Anyone (public learners) can read events
+      allow read: if true;
+
+      // Allow writes (create/update) only if they pass schema and date validation rules
+      allow create, update: if true && isValidEvent(request.resource.data);
+      
+      // Anyone can delete events (simplification for admin manager panel)
+      allow delete: if true;
+    }
+
+    // Helper validation checks for events schema integrity
+    function isValidEvent(data) {
+      return data.title is string 
+        && data.title.size() > 0
+        // Rule: If present, start/end dates must be type-safe string formats or null
+        && (!('startDate' in data) || data.startDate == null || data.startDate is string)
+        && (!('endDate' in data) || data.endDate == null || data.endDate is string)
+        // Rule: Start Date must always occur before the End Date if both are set and non-null strings
+        && (
+          !('startDate' in data) || 
+          !('endDate' in data) || 
+          data.startDate == null ||
+          data.endDate == null ||
+          (data.startDate is string && data.endDate is string && data.startDate < data.endDate)
+        )
+        // Rule: Registration open/close date chronology if both are set and non-null strings
+        && (
+          !('registrationOpenDate' in data) || 
+          !('registrationCloseDate' in data) || 
+          data.registrationOpenDate == null ||
+          data.registrationCloseDate == null ||
+          (data.registrationOpenDate is string && data.registrationOpenDate == "") || 
+          (data.registrationCloseDate is string && data.registrationCloseDate == "") || 
+          (data.registrationOpenDate is string && data.registrationCloseDate is string && data.registrationOpenDate < data.registrationCloseDate)
+        )
+        // Rule: Verify other date parameters are type-safe string formats if specified
+        && (!('registrationOpenDate' in data) || data.registrationOpenDate == null || data.registrationOpenDate is string)
+        && (!('registrationCloseDate' in data) || data.registrationCloseDate == null || data.registrationCloseDate is string);
+    }
+  }
+}
