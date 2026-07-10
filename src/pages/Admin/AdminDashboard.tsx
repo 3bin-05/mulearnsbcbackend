@@ -3,6 +3,7 @@ import {
   FolderArchive,
   Layers,
   LayoutDashboard,
+  LogOut,
   Menu,
   PlayCircle,
   PlusCircle,
@@ -10,6 +11,7 @@ import {
   Shield,
   X,
 } from 'lucide-react';
+import { useAuth } from '../../context/AuthContext';
 import { subscribeToEvents } from '../../services/firestore';
 import type { Event } from '../../types/event';
 import CreateEvent from '../../components/admin/CreateEvent';
@@ -21,6 +23,7 @@ import RunningEvents from '../../components/admin/RunningEvents';
 
 
 export const AdminDashboard: React.FC = () => {
+  const { logout, user } = useAuth();
   const [currentTab, setCurrentTab] = useState('overview');
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [events, setEvents] = useState<Event[]>([]);
@@ -142,6 +145,31 @@ export const AdminDashboard: React.FC = () => {
           })}
         </nav>
 
+        {/* Logout button */}
+        <div className="pt-4 border-t border-[#ece3fa]">
+          {user && (
+            <div className="flex items-center gap-3 px-2 mb-3">
+              <img
+                src={user.photoURL || ''}
+                alt={user.displayName || 'User'}
+                className="h-8 w-8 rounded-full border border-[#d4baff] object-cover"
+                onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }}
+              />
+              <div className="flex flex-col min-w-0">
+                <span className="text-xs font-semibold text-[#1f2433] truncate">{user.displayName}</span>
+                <span className="text-[10px] text-slate-400 truncate">{user.email}</span>
+              </div>
+            </div>
+          )}
+          <button
+            onClick={logout}
+            className="w-full flex items-center gap-3 px-4 py-3 rounded-2xl font-medium text-sm text-slate-500 hover:bg-red-50 hover:text-red-600 transition-all duration-200 cursor-pointer outline-none focus-visible:ring-2 focus-visible:ring-red-300 border border-transparent hover:border-red-100"
+          >
+            <LogOut className="h-4 w-4" />
+            <span>Sign Out</span>
+          </button>
+        </div>
+
       </aside>
 
       <div className="relative z-20 flex md:hidden items-center justify-between border-b border-[#ece3fa] bg-white/90 px-4 py-3 backdrop-blur">
@@ -181,6 +209,14 @@ export const AdminDashboard: React.FC = () => {
               </button>
             );
           })}
+          {/* Mobile logout */}
+          <button
+            onClick={logout}
+            className="w-full flex items-center gap-3 px-4 py-3 rounded-xl font-semibold text-sm text-red-500 hover:bg-red-50 transition-all duration-200 outline-none"
+          >
+            <LogOut className="h-4 w-4" />
+            <span>Sign Out</span>
+          </button>
         </div>
       )}
 
