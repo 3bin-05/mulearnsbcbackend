@@ -169,15 +169,17 @@ export const AdminDashboard: React.FC = () => {
       <aside className="sbc-sidebar relative z-10 hidden md:flex md:w-72 flex-col border-r border-[#ece3fa] p-7 space-y-8 flex-shrink-0">
         <div className="flex flex-col gap-1.5 pb-2">
           <div className="flex items-center gap-3">
-            <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-white shadow-sm ring-1 ring-[#efe6fb]">
-              <img src="/favicon.svg" alt="muLearn Logo" className="h-7 w-7 object-contain" />
-            </div>
-            <div>
-              <span className="text-lg font-extrabold tracking-tight text-[#1f2433]">
-                <span className="text-[#7a34ff]">muLearn</span> SBC
+            {/* μLearn logo image */}
+            <img src="/sbc.png" alt="μLearn Logo" className="h-7 w-auto object-contain" />
+            {/* Vertical divider */}
+            <span className="h-8 w-px bg-[#d4baff]" />
+            {/* SBC text block */}
+            <div className="flex flex-col leading-tight">
+              <span className="text-base font-black tracking-tight text-[#1f2433] uppercase">
+                SBC
               </span>
-              <span className="block text-[10px] uppercase tracking-wider text-slate-500 font-semibold">
-                Event Hub Dashboard
+              <span className="text-[9px] font-semibold uppercase tracking-widest text-slate-400">
+                Campus Chapter
               </span>
             </div>
           </div>
@@ -216,12 +218,12 @@ export const AdminDashboard: React.FC = () => {
 
       <div className="relative z-20 flex md:hidden items-center justify-between border-b border-[#ece3fa] bg-white/90 px-4 py-3 backdrop-blur">
         <div className="flex items-center gap-2.5">
-          <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-white ring-1 ring-[#efe6fb]">
-            <img src="/favicon.svg" alt="muLearn Logo" className="h-5 w-5 object-contain" />
+          <img src="/sbc.png" alt="μLearn Logo" className="h-6 w-auto object-contain" />
+          <span className="h-6 w-px bg-[#d4baff]" />
+          <div className="flex flex-col leading-tight">
+            <span className="text-xs font-black tracking-tight text-[#1f2433] uppercase">SBC</span>
+            <span className="text-[8px] font-semibold uppercase tracking-widest text-slate-400">Campus Chapter</span>
           </div>
-          <span className="text-sm font-bold text-[#1f2433]">
-            muLearn <span className="text-[#6b2ff2]">SBC</span>
-          </span>
         </div>
         <button
           onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
