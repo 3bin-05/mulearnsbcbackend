@@ -22,6 +22,7 @@ export const CreateEvent: React.FC<CreateEventProps> = ({ editingEvent, onCancel
     description: '',
     speaker: '',
     category: '',
+    eventType: 'workshop' as 'workshop' | 'tournament' | 'hackathon' | 'webinar' | 'other',
     venue: '',
     mode: 'online' as 'online' | 'offline',
     registrationOpenDate: '',
@@ -48,6 +49,7 @@ export const CreateEvent: React.FC<CreateEventProps> = ({ editingEvent, onCancel
         description: editingEvent.description || '',
         speaker: editingEvent.speaker || '',
         category: editingEvent.category || '',
+        eventType: editingEvent.eventType || 'workshop',
         venue: editingEvent.venue || '',
         mode: editingEvent.mode || 'online',
         registrationOpenDate: editingEvent.registrationOpenDate || '',
@@ -83,6 +85,7 @@ export const CreateEvent: React.FC<CreateEventProps> = ({ editingEvent, onCancel
       description: '',
       speaker: '',
       category: '',
+      eventType: 'workshop',
       venue: '',
       mode: 'online',
       registrationOpenDate: '',
@@ -106,6 +109,13 @@ export const CreateEvent: React.FC<CreateEventProps> = ({ editingEvent, onCancel
     setError(null);
     setSuccess(null);
 
+    // Validation: when event is workshop then speaker is needed else no need
+    if (formData.eventType === 'workshop' && !formData.speaker.trim()) {
+      setError('Speaker Name is required for workshop events.');
+      setLoading(false);
+      return;
+    }
+
     try {
       const cardImageUrl = formData.cardImage.trim();
       const wideImageUrl = formData.wideImage.trim();
@@ -117,6 +127,7 @@ export const CreateEvent: React.FC<CreateEventProps> = ({ editingEvent, onCancel
             description: formData.description || '',
             speaker: formData.speaker,
             category: formData.category,
+            eventType: formData.eventType,
             venue: formData.venue,
             mode: formData.mode,
             registrationOpenDate: null,
@@ -135,6 +146,7 @@ export const CreateEvent: React.FC<CreateEventProps> = ({ editingEvent, onCancel
             description: formData.description || '',
             speaker: formData.speaker,
             category: formData.category,
+            eventType: formData.eventType,
             venue: formData.venue,
             mode: formData.mode,
             registrationOpenDate: formData.registrationOpenDate || null,
@@ -279,16 +291,20 @@ export const CreateEvent: React.FC<CreateEventProps> = ({ editingEvent, onCancel
           </div>
 
           <div>
-            <label className="block text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-1.5">Speaker Name *</label>
-            <input
-              type="text"
-              name="speaker"
-              value={formData.speaker}
+            <label className="block text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-1.5">Event Type *</label>
+            <select
+              name="eventType"
+              value={formData.eventType}
               onChange={handleChange}
-              placeholder="e.g. Jane Doe"
-              className="w-full rounded-xl border border-slate-200 bg-[#fcfbfe] px-3.5 py-2.5 text-slate-800 placeholder-slate-400 focus:border-[#6320ee] focus:outline-none transition-colors"
+              className="w-full rounded-xl border border-slate-200 bg-[#fcfbfe] px-3.5 py-2.5 text-slate-800 focus:border-[#6320ee] focus:outline-none transition-colors"
               required
-            />
+            >
+              <option value="workshop">Workshop</option>
+              <option value="tournament">Tournament</option>
+              <option value="hackathon">Hackathon</option>
+              <option value="webinar">Webinar</option>
+              <option value="other">Other</option>
+            </select>
           </div>
 
           <div>
@@ -304,10 +320,30 @@ export const CreateEvent: React.FC<CreateEventProps> = ({ editingEvent, onCancel
               <option value="Backend Development">Backend Development</option>
               <option value="Frontend Development">Frontend Development</option>
               <option value="Artificial Intelligence">Artificial Intelligence</option>
+              <option value="Generative AI">Generative AI</option>
+              <option value="Game Development">Game Development</option>
+              <option value="Internet of Things (IoT)">Internet of Things (IoT)</option>
+              <option value="Mobile App Development">Mobile App Development</option>
+              <option value="Blockchain & Web3">Blockchain & Web3</option>
               <option value="UI/UX Design">UI/UX Design</option>
               <option value="DevOps & Cloud">DevOps & Cloud</option>
               <option value="Cybersecurity">Cybersecurity</option>
             </select>
+          </div>
+
+          <div>
+            <label className="block text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-1.5">
+              Speaker Name {formData.eventType === 'workshop' ? '*' : '(optional)'}
+            </label>
+            <input
+              type="text"
+              name="speaker"
+              value={formData.speaker}
+              onChange={handleChange}
+              placeholder={formData.eventType === 'workshop' ? "e.g. Jane Doe" : "e.g. Jane Doe (optional)"}
+              className="w-full rounded-xl border border-slate-200 bg-[#fcfbfe] px-3.5 py-2.5 text-slate-800 placeholder-slate-400 focus:border-[#6320ee] focus:outline-none transition-colors"
+              required={formData.eventType === 'workshop'}
+            />
           </div>
 
           <div>

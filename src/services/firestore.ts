@@ -32,6 +32,7 @@ const mapDocToEvent = (snapshot: QueryDocumentSnapshot<DocumentData>): Event => 
     description: data.description || '',
     speaker: data.speaker || '',
     category: data.category || '',
+    eventType: data.eventType || 'workshop',
     venue: data.venue || '',
     mode: data.mode || 'online',
     registrationOpenDate: data.registrationOpenDate,

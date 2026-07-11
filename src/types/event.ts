@@ -1,4 +1,5 @@
 export type EventStatus = 'coming-soon' | 'registration-open' | 'running' | 'needs-finalization' | 'past';
+export type EventType = 'workshop' | 'tournament' | 'hackathon' | 'webinar' | 'other';
 
 export interface Event {
   id: string;
@@ -7,6 +8,7 @@ export interface Event {
   description: string;
   speaker: string;
   category: string;
+  eventType?: EventType;
   venue: string;
   mode: 'online' | 'offline';
   comingSoonOnly?: boolean;

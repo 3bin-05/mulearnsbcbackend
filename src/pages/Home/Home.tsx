@@ -104,9 +104,14 @@ export const Home: React.FC = () => {
         {/* Info Area */}
         <div className="p-4 flex-grow flex flex-col justify-between space-y-3">
           <div className="space-y-1.5">
-            <span className="text-[9px] font-bold uppercase tracking-wider text-violet-500">
-              {event.category}
-            </span>
+            <div className="flex flex-wrap items-center gap-1.5">
+              <span className="text-[9px] font-bold uppercase tracking-wider text-violet-500">
+                {event.category}
+              </span>
+              <span className="inline-flex items-center rounded bg-slate-900 px-1.5 py-0.5 text-[8px] font-bold text-slate-400 uppercase border border-slate-850">
+                {event.eventType || 'workshop'}
+              </span>
+            </div>
             <h4 className="text-xs font-bold text-slate-200 group-hover:text-white transition-colors line-clamp-1">
               {event.title}
             </h4>
@@ -117,10 +122,12 @@ export const Home: React.FC = () => {
 
           <div className="border-t border-slate-900/60 pt-3 space-y-3">
             <div className="flex flex-col gap-1 text-[10px] text-slate-450">
-              <div className="flex items-center gap-1.5">
-                <span className="font-semibold text-slate-500">Host:</span>
-                <span className="truncate">{event.speaker}</span>
-              </div>
+              {event.speaker && (
+                <div className="flex items-center gap-1.5">
+                  <span className="font-semibold text-slate-500">Host:</span>
+                  <span className="truncate">{event.speaker}</span>
+                </div>
+              )}
               <div className="flex items-center gap-1.5">
                 <span className="font-semibold text-slate-500">Date:</span>
                 <span>{new Date(event.startDate!).toLocaleDateString()}</span>
@@ -175,9 +182,14 @@ export const Home: React.FC = () => {
         {/* Content */}
         <div className="p-4 flex-grow flex flex-col justify-between space-y-3">
           <div className="space-y-1">
-            <span className="text-[9px] font-bold uppercase tracking-wider text-rose-500">
-              {event.category}
-            </span>
+            <div className="flex flex-wrap items-center gap-1.5">
+              <span className="text-[9px] font-bold uppercase tracking-wider text-rose-500">
+                {event.category}
+              </span>
+              <span className="inline-flex items-center rounded bg-slate-900 px-1.5 py-0.5 text-[8px] font-bold text-slate-400 uppercase border border-slate-850">
+                {event.eventType || 'workshop'}
+              </span>
+            </div>
             <h4 className="text-xs font-bold text-slate-200 group-hover:text-white transition-colors leading-snug line-clamp-1">
               {event.title}
             </h4>
@@ -196,9 +208,11 @@ export const Home: React.FC = () => {
 
           <div className="border-t border-slate-900/60 pt-3 flex items-center justify-between gap-3">
             <div className="flex flex-col gap-0.5 text-[10px] text-slate-450">
-              <div>
-                <span className="font-semibold text-slate-500">Host:</span> {event.speaker}
-              </div>
+              {event.speaker && (
+                <div>
+                  <span className="font-semibold text-slate-500">Host:</span> {event.speaker}
+                </div>
+              )}
               <div>
                 <span className="font-semibold text-slate-500">Venue:</span> <span className="capitalize truncate max-w-24 inline-block align-bottom">{event.venue}</span>
               </div>
@@ -250,9 +264,14 @@ export const Home: React.FC = () => {
         {/* Info Area */}
         <div className="p-4 flex-grow flex flex-col justify-between space-y-3">
           <div className="space-y-1.5">
-            <span className="text-[9px] font-bold uppercase tracking-wider text-indigo-400">
-              {event.category}
-            </span>
+            <div className="flex flex-wrap items-center gap-1.5">
+              <span className="text-[9px] font-bold uppercase tracking-wider text-indigo-400">
+                {event.category}
+              </span>
+              <span className="inline-flex items-center rounded bg-slate-900 px-1.5 py-0.5 text-[8px] font-bold text-slate-400 uppercase border border-slate-850">
+                {event.eventType || 'workshop'}
+              </span>
+            </div>
             <h4 className="text-xs font-bold text-slate-200 group-hover:text-white transition-colors line-clamp-1">
               {event.title}
             </h4>
@@ -503,24 +522,31 @@ export const Home: React.FC = () => {
             {/* Modal Body */}
             <div className="p-6 space-y-5 overflow-y-auto">
               <div>
-                <span className="text-[9px] font-bold uppercase tracking-wider text-violet-500">
-                  {selectedComingSoon.category}
-                </span>
+                <div className="flex items-center gap-2">
+                  <span className="text-[9px] font-bold uppercase tracking-wider text-violet-500">
+                    {selectedComingSoon.category}
+                  </span>
+                  <span className="inline-flex items-center rounded bg-slate-900 px-1.5 py-0.5 text-[8px] font-bold text-slate-400 uppercase border border-slate-850">
+                    {selectedComingSoon.eventType || 'workshop'}
+                  </span>
+                </div>
                 <h3 className="text-base font-bold text-slate-200 mt-1 leading-snug">
                   {selectedComingSoon.title}
                 </h3>
               </div>
 
               {/* Speaker info */}
-              <div className="flex items-center gap-2.5 bg-slate-950/40 border border-slate-905 p-3 rounded-xl">
-                <div className="h-8 w-8 rounded-full bg-violet-600/10 border border-violet-500/20 flex items-center justify-center text-violet-400">
-                  <User className="h-4 w-4" />
+              {selectedComingSoon.speaker && (
+                <div className="flex items-center gap-2.5 bg-slate-950/40 border border-slate-905 p-3 rounded-xl">
+                  <div className="h-8 w-8 rounded-full bg-violet-600/10 border border-violet-500/20 flex items-center justify-center text-violet-400">
+                    <User className="h-4 w-4" />
+                  </div>
+                  <div>
+                    <p className="text-[10px] text-slate-500 font-semibold uppercase">Speaker / Host</p>
+                    <p className="text-slate-200 text-xs font-bold">{selectedComingSoon.speaker}</p>
+                  </div>
                 </div>
-                <div>
-                  <p className="text-[10px] text-slate-500 font-semibold uppercase">Speaker / Host</p>
-                  <p className="text-slate-200 text-xs font-bold">{selectedComingSoon.speaker}</p>
-                </div>
-              </div>
+              )}
 
               {/* Description */}
               <div className="space-y-1.5">

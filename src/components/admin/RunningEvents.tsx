@@ -128,7 +128,7 @@ export const RunningEvents: React.FC<RunningEventsProps> = ({ events }) => {
                   </div>
                 ) : (
                   <div className="h-44 bg-gradient-to-br from-rose-900/20 to-slate-900 relative flex items-center justify-center">
-                    <span className="text-rose-400 font-bold tracking-widest text-sm uppercase">Active Workshop</span>
+                    <span className="text-rose-400 font-bold tracking-widest text-sm uppercase">Active {event.eventType || 'workshop'}</span>
                     <span className="absolute top-4 left-4 inline-flex items-center gap-1.5 rounded-full bg-rose-600 px-3 py-1 text-[10px] font-bold text-white uppercase tracking-wider">
                       LIVE
                     </span>
@@ -149,7 +149,7 @@ export const RunningEvents: React.FC<RunningEventsProps> = ({ events }) => {
                   <div className="grid grid-cols-2 gap-3.5 border-t border-slate-900/60 pt-3.5 text-slate-500">
                     <div className="flex items-center gap-2">
                       <User className="h-4 w-4 text-slate-600 flex-shrink-0" />
-                      <span className="truncate">{event.speaker}</span>
+                      <span className="truncate">{event.speaker || '-'}</span>
                     </div>
                     <div className="flex items-center gap-2">
                       {event.mode === 'online' ? <Monitor className="h-4 w-4 text-slate-600 flex-shrink-0" /> : <MapPin className="h-4 w-4 text-slate-600 flex-shrink-0" />}

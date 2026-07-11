@@ -183,16 +183,21 @@ export const ManageEvents: React.FC<ManageEventsProps> = ({ events, onEdit }) =>
                     <td className="px-6 py-4 text-slate-600">
                       <span className="flex items-center gap-1.5">
                         <User className="h-3.5 w-3.5 text-slate-400" />
-                        {event.speaker}
+                        {event.speaker || '-'}
                       </span>
                     </td>
 
                     {/* Category */}
                     <td className="px-6 py-4 text-slate-600">
-                      <span className="flex items-center gap-1.5">
-                        <Tag className="h-3.5 w-3.5 text-slate-400" />
-                        {event.category}
-                      </span>
+                      <div className="flex flex-col gap-0.5">
+                        <span className="flex items-center gap-1.5">
+                          <Tag className="h-3.5 w-3.5 text-slate-400" />
+                          {event.category}
+                        </span>
+                        <span className="text-[8px] font-bold text-violet-500 uppercase tracking-wide pl-5">
+                          {event.eventType || 'workshop'}
+                        </span>
+                      </div>
                     </td>
 
                     {/* Status Badge */}
@@ -287,15 +292,20 @@ export const ManageEvents: React.FC<ManageEventsProps> = ({ events, onEdit }) =>
                   <User className="h-4.5 w-4.5 text-slate-450 mt-0.5" />
                   <div>
                     <p className="font-semibold text-slate-500 text-[10px] uppercase">Speaker</p>
-                    <p className="text-slate-850 text-xs font-bold">{selectedEvent.speaker}</p>
+                    <p className="text-slate-850 text-xs font-bold">{selectedEvent.speaker || '-'}</p>
                   </div>
                 </div>
 
                 <div className="flex items-start gap-2">
                   <Tag className="h-4.5 w-4.5 text-slate-450 mt-0.5" />
                   <div>
-                    <p className="font-semibold text-slate-500 text-[10px] uppercase">Category</p>
-                    <p className="text-slate-850 text-xs font-bold">{selectedEvent.category}</p>
+                    <p className="font-semibold text-slate-500 text-[10px] uppercase">Category & Type</p>
+                    <p className="text-slate-850 text-xs font-bold">
+                      {selectedEvent.category}
+                      <span className="ml-2 inline-flex items-center rounded bg-[#f1e9ff] px-1.5 py-0.5 text-[8px] font-bold text-[#6320ee] uppercase border border-[#e2d9f7]">
+                        {selectedEvent.eventType || 'workshop'}
+                      </span>
+                    </p>
                   </div>
                 </div>
 

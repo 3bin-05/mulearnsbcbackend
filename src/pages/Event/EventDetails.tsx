@@ -143,9 +143,14 @@ export const EventDetails: React.FC = () => {
         {/* Core Event Information (Left) */}
         <div className="md:col-span-2 space-y-6">
           <div className="space-y-2">
-            <span className="inline-flex rounded-lg bg-violet-600/10 px-3 py-1 font-semibold text-violet-400 border border-violet-500/10">
-              {event.category}
-            </span>
+            <div className="flex flex-wrap items-center gap-2">
+              <span className="inline-flex rounded-lg bg-violet-600/10 px-3 py-1 font-semibold text-violet-400 border border-violet-500/10">
+                {event.category}
+              </span>
+              <span className="inline-flex rounded-lg bg-slate-900 px-3 py-1 font-semibold text-slate-400 border border-slate-850 uppercase text-[10px] tracking-wide">
+                {event.eventType || 'workshop'}
+              </span>
+            </div>
             <h1 className="text-xl font-extrabold tracking-tight text-white sm:text-2xl">
               {event.title}
             </h1>
@@ -253,13 +258,15 @@ export const EventDetails: React.FC = () => {
             {/* Meta facts */}
             <div className="space-y-4 text-slate-400">
               {/* Speaker */}
-              <div className="flex gap-3">
-                <User className="h-4.5 w-4.5 text-slate-650 mt-0.5 flex-shrink-0" />
-                <div>
-                  <p className="text-[10px] text-slate-500 uppercase tracking-wider font-medium">Speaker / Host</p>
-                  <p className="text-slate-200 font-bold mt-0.5">{event.speaker}</p>
+              {event.speaker && (
+                <div className="flex gap-3">
+                  <User className="h-4.5 w-4.5 text-slate-650 mt-0.5 flex-shrink-0" />
+                  <div>
+                    <p className="text-[10px] text-slate-500 uppercase tracking-wider font-medium">Speaker / Host</p>
+                    <p className="text-slate-200 font-bold mt-0.5">{event.speaker}</p>
+                  </div>
                 </div>
-              </div>
+              )}
 
               {/* Mode & Venue */}
               <div className="flex gap-3">

@@ -82,7 +82,7 @@ export const DashboardOverview: React.FC<DashboardOverviewProps> = ({ events, on
                   <th className="py-3 font-bold uppercase tracking-wider text-[10px]">Event Title</th>
                   <th className="py-3 font-bold uppercase tracking-wider text-[10px]">Speaker</th>
                   <th className="py-3 font-bold uppercase tracking-wider text-[10px]">Category</th>
-                  <th className="py-3 font-bold uppercase tracking-wider text-[10px]">Type</th>
+                  <th className="py-3 font-bold uppercase tracking-wider text-[10px]">Mode</th>
                   <th className="py-3 font-bold uppercase tracking-wider text-[10px]">Status</th>
                 </tr>
               </thead>
@@ -92,8 +92,15 @@ export const DashboardOverview: React.FC<DashboardOverviewProps> = ({ events, on
                     <td className="py-3.5 font-semibold text-slate-700 group-hover:text-slate-900">
                       {event.title}
                     </td>
-                    <td className="py-3.5 text-slate-500">{event.speaker}</td>
-                    <td className="py-3.5 text-slate-500">{event.category}</td>
+                    <td className="py-3.5 text-slate-500">{event.speaker || '-'}</td>
+                    <td className="py-3.5 text-slate-500">
+                      <div className="flex flex-col">
+                        <span>{event.category}</span>
+                        <span className="text-[9px] font-bold text-violet-500 uppercase tracking-wide">
+                          {event.eventType || 'workshop'}
+                        </span>
+                      </div>
+                    </td>
                     <td className="py-3.5 text-slate-500">
                       <span className="inline-flex items-center gap-1">
                         {event.mode === 'online' ? <Monitor className="h-3.5 w-3.5 text-[#6320ee]" /> : <MapPin className="h-3.5 w-3.5 text-cyan-500" />}

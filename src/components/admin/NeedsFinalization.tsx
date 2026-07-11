@@ -199,7 +199,9 @@ export const NeedsFinalization: React.FC<NeedsFinalizationProps> = ({ events }) 
                       Concluded: {event.endDate ? new Date(event.endDate).toLocaleDateString() : 'TBD'}
                     </span>
                     <h3 className="text-xl font-extrabold text-[#1f2433] mt-2">{event.title}</h3>
-                    <p className="text-sm text-slate-500 mt-1">Led by {event.speaker} - {event.category}</p>
+                    <p className="text-sm text-slate-500 mt-1">
+                      {event.speaker ? `Led by ${event.speaker} - ` : ''}{event.category}
+                    </p>
                   </div>
                   <span className="self-start md:self-center inline-flex items-center rounded-xl bg-[#e9fbff] text-cyan-700 border border-cyan-100 px-3 py-1.5 text-xs font-bold">
                     Needs Finalization
