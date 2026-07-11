@@ -25,35 +25,31 @@ export default function LoginPage() {
       <div className="lp-left">
         {/* Top brand */}
         <div className="lp-left-brand">
-          <div className="lp-brand-logo">
-            <LightningIcon size={18} color="#7c3aed" />
-          </div>
-          <div>
-            <div className="lp-brand-title">
-              <span className="lp-brand-mu">μLearm</span>
-              <span className="lp-brand-sbc"> SBC</span>
+          <div className="lp-left-brand-content">
+            <div className="lp-brand-title-wrap">
+              <img src="/sbc.png" alt="MuLearn Logo" className="lp-logo-brand-img" />
+              <span className="lp-brand-sbc">SBC</span>
             </div>
             <div className="lp-brand-sub">EVENT HUB DASHBOARD</div>
           </div>
         </div>
 
-        {/* Headline */}
-        <div className="lp-left-hero">
+        {/* Decorative background orbs for the glass effect */}
+        <div className="lp-bg-orb lp-bg-orb-1" />
+        <div className="lp-bg-orb lp-bg-orb-2" />
+
+        {/* Glass Card */}
+        <div className="lp-left-glass-card animate-fade-in">
+          <div className="lp-glass-badge">
+            <span className="lp-glass-badge-dot" />
+            Secure Console
+          </div>
           <h1 className="lp-hero-admin">Admin</h1>
           <h1 className="lp-hero-access">Access</h1>
           <div className="lp-hero-divider" />
           <p className="lp-hero-desc">
             Sign up to access the μLearn SBC Admin Console and manage events with ease.
           </p>
-        </div>
-
-        {/* Illustration */}
-        <div className="lp-illustration-wrap">
-          <img
-            src="/login-illustration.png"
-            alt="Admin dashboard illustration"
-            className="lp-illustration"
-          />
         </div>
 
         {/* Decorative sparkles */}
@@ -73,17 +69,10 @@ export default function LoginPage() {
         </div>
 
         <div className="lp-form-card animate-fade-in">
-          {/* Logo */}
-          <div className="lp-form-logo-wrap">
-            <div className="lp-form-logo">
-              <LightningIcon size={26} color="#7c3aed" />
-            </div>
-          </div>
-
-          {/* Brand */}
-          <div className="lp-form-brand">
-            <span className="lp-form-brand-mu">μLearm</span>
-            <span className="lp-form-brand-sbc"> SBC</span>
+          {/* Logo Brand */}
+          <div className="lp-form-brand-wrap">
+            <img src="/sbc.png" alt="MuLearn Logo" className="lp-logo-form-brand-img" />
+            <span className="lp-form-brand-sbc">SBC</span>
           </div>
           <div className="lp-form-brand-sub">EVENT HUB DASHBOARD</div>
 
