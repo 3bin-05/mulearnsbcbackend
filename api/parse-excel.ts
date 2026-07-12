@@ -49,6 +49,12 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     const emailIndex = headers.findIndex((h: string) => h === 'email id' || h === 'email' || h === 'email address');
     const dobIndex = headers.findIndex((h: string) => h === 'date of birth' || h === 'dob' || h === 'birth date');
     const pictureIndex = headers.findIndex((h: string) => h === 'picture' || h === 'image' || h === 'image url' || h === 'photo');
+    const linkedinIndex = headers.findIndex((h: string) => h === 'linkedin' || h === 'linkedin url' || h === 'linkedin link');
+    const githubIndex = headers.findIndex((h: string) => h === 'github' || h === 'github url' || h === 'github link');
+    const instagramIndex = headers.findIndex((h: string) => h === 'instagram' || h === 'instagram url' || h === 'instagram link');
+    const twitterIndex = headers.findIndex((h: string) => h === 'twitter' || h === 'twitter url' || h === 'twitter link' || h === 'x' || h === 'x url');
+    const websiteIndex = headers.findIndex((h: string) => h === 'website' || h === 'portfolio' || h === 'website url' || h === 'website link');
+    const discordIndex = headers.findIndex((h: string) => h === 'discord' || h === 'discord username' || h === 'discord tag');
 
     // Basic columns validation
     const missingHeaders: string[] = [];
@@ -88,6 +94,12 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       const email = String(row[emailIndex] || '').trim();
       const dob = dobIndex !== -1 ? String(row[dobIndex] || '').trim() : '';
       const imageUrl = pictureIndex !== -1 ? String(row[pictureIndex] || '').trim() : '';
+      const linkedin = linkedinIndex !== -1 ? String(row[linkedinIndex] || '').trim() : '';
+      const github = githubIndex !== -1 ? String(row[githubIndex] || '').trim() : '';
+      const instagram = instagramIndex !== -1 ? String(row[instagramIndex] || '').trim() : '';
+      const twitter = twitterIndex !== -1 ? String(row[twitterIndex] || '').trim() : '';
+      const website = websiteIndex !== -1 ? String(row[websiteIndex] || '').trim() : '';
+      const discord = discordIndex !== -1 ? String(row[discordIndex] || '').trim() : '';
 
       let hasRowError = false;
       let normalizedPosInfo: { position: string; roleTitle: string } | null = null;
@@ -159,11 +171,12 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
           dob,
           imageUrl,
           socials: {
-            linkedin: '',
-            github: '',
-            instagram: '',
-            twitter: '',
-            website: ''
+            linkedin,
+            github,
+            instagram,
+            twitter,
+            website,
+            discord
           },
           bio: '',
           displayOrder: i,

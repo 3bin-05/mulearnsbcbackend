@@ -195,7 +195,8 @@ export const exportExcelFile = (yearId: string, members: ExeComMember[]): void =
     'GitHub': m.socials?.github || '',
     'Instagram': m.socials?.instagram || '',
     'Twitter': m.socials?.twitter || '',
-    'Website': m.socials?.website || ''
+    'Website': m.socials?.website || '',
+    'Discord': m.socials?.discord || ''
   }));
 
   const worksheet = XLSX.utils.json_to_sheet(rows);

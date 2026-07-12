@@ -16,6 +16,7 @@ export interface ExeComMember {
     instagram: string;
     twitter: string;
     website: string;
+    discord: string;
   };
   bio: string;
   displayOrder: number;

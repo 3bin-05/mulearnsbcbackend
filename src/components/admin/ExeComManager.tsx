@@ -79,7 +79,8 @@ export const ExeComManager: React.FC = () => {
     github: '',
     instagram: '',
     twitter: '',
-    website: ''
+    website: '',
+    discord: ''
   });
 
   // Initiate New ExeCom State
@@ -157,7 +158,8 @@ export const ExeComManager: React.FC = () => {
     github: member.socials?.github || '',
     instagram: member.socials?.instagram || '',
     twitter: member.socials?.twitter || '',
-    website: member.socials?.website || ''
+    website: member.socials?.website || '',
+    discord: member.socials?.discord || ''
   });
 
   const openAddModal = (mode: 'add' | 'staged-edit' | 'edit' | 'archive-edit', data?: any, index?: number) => {
@@ -197,7 +199,8 @@ export const ExeComManager: React.FC = () => {
         github: '',
         instagram: '',
         twitter: '',
-        website: ''
+        website: '',
+        discord: ''
       });
     }
     setIsFormModalOpen(true);
@@ -239,7 +242,8 @@ export const ExeComManager: React.FC = () => {
         github: formData.github.trim(),
         instagram: formData.instagram.trim(),
         twitter: formData.twitter.trim(),
-        website: formData.website.trim()
+        website: formData.website.trim(),
+        discord: formData.discord.trim()
       },
       isActive: true,
       displayOrder: 9999
@@ -425,7 +429,8 @@ export const ExeComManager: React.FC = () => {
           github: m.socials?.github || '',
           instagram: m.socials?.instagram || '',
           twitter: m.socials?.twitter || '',
-          website: m.socials?.website || ''
+          website: m.socials?.website || '',
+          discord: m.socials?.discord || ''
         },
         bio: m.bio,
         displayOrder: index,
@@ -1387,7 +1392,7 @@ export const ExeComManager: React.FC = () => {
                         placeholder="https://twitter.com/..."
                       />
                     </div>
-                    <div className="sm:col-span-2">
+                    <div>
                       <label className="text-[9px] text-slate-500 font-semibold mb-0.5 block">Personal Website</label>
                       <input
                         type="url"
@@ -1395,6 +1400,16 @@ export const ExeComManager: React.FC = () => {
                         onChange={(e) => setFormData({ ...formData, website: e.target.value })}
                         className="w-full rounded-lg border border-slate-200 bg-[#fcfbfe] px-3 py-1.5 text-slate-800 focus:border-[#6320ee] focus:outline-none"
                         placeholder="https://..."
+                      />
+                    </div>
+                    <div>
+                      <label className="text-[9px] text-slate-500 font-semibold mb-0.5 block">Discord Username</label>
+                      <input
+                        type="text"
+                        value={formData.discord}
+                        onChange={(e) => setFormData({ ...formData, discord: e.target.value })}
+                        className="w-full rounded-lg border border-slate-200 bg-[#fcfbfe] px-3 py-1.5 text-slate-800 focus:border-[#6320ee] focus:outline-none"
+                        placeholder="username"
                       />
                     </div>
                   </div>
