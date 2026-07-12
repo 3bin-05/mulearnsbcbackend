@@ -30,6 +30,23 @@ service cloud.firestore {
       allow delete: if isAdmin();
     }
 
+    // ─── ExeCom collection ───────────────────────────────────────────────────
+    match /execom/current {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    match /execom/{year} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    match /execom/{year}/members/{memberId} {
+      allow read: if true;
+      allow create, update: if isAdmin() && isValidMember(request.resource.data);
+      allow delete: if isAdmin();
+    }
+
     // ─── Helper: check caller is an admin ────────────────────────────────────
     function isAdmin() {
       return request.auth != null
@@ -66,6 +83,17 @@ service cloud.firestore {
         )
         && (!('registrationOpenDate'  in data) || data.registrationOpenDate  == null || data.registrationOpenDate  is string)
         && (!('registrationCloseDate' in data) || data.registrationCloseDate == null || data.registrationCloseDate is string);
+    }
+
+    // ─── Helper: validate member document schema ──────────────────────────────
+    function isValidMember(data) {
+      return data.name is string
+        && data.name.size() > 0
+        && data.position is string
+        && data.position.size() > 0
+        && data.mulearnId is string
+        && (!('email' in data) || data.email is string)
+        && (!('displayOrder' in data) || data.displayOrder is int);
     }
   }
 }

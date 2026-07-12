@@ -10,6 +10,7 @@ import {
   Settings2,
   Shield,
   X,
+  Users,
 } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 import { subscribeToEvents } from '../../services/firestore';
@@ -20,6 +21,7 @@ import ManageEvents from '../../components/admin/ManageEvents';
 import NeedsFinalization from '../../components/admin/NeedsFinalization';
 import PastEvents from '../../components/admin/PastEvents';
 import RunningEvents from '../../components/admin/RunningEvents';
+import ExeComManager from '../../components/admin/ExeComManager';
 
 
 export const AdminDashboard: React.FC = () => {
@@ -43,6 +45,7 @@ export const AdminDashboard: React.FC = () => {
     { id: 'running', name: 'Running Events', icon: PlayCircle },
     { id: 'finalization', name: 'Needs Finalization', icon: Layers },
     { id: 'past', name: 'Past Events Manager', icon: FolderArchive },
+    { id: 'execom', name: 'ExeCom', icon: Users },
   ];
 
   const handleTabChange = (tabId: string) => {
@@ -85,6 +88,8 @@ export const AdminDashboard: React.FC = () => {
         return <NeedsFinalization events={events} />;
       case 'past':
         return <PastEvents events={events} />;
+      case 'execom':
+        return <ExeComManager />;
       default:
         return <DashboardOverview events={events} onNavigateToTab={handleTabChange} />;
     }
