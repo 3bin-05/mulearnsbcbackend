@@ -7,11 +7,14 @@ import {
   deleteDoc, 
   getDoc, 
   getDocs,
+  setDoc,
   onSnapshot,
   query,
-  orderBy
+  orderBy,
+  serverTimestamp,
 } from 'firebase/firestore';
 import type { DocumentData, QueryDocumentSnapshot } from 'firebase/firestore';
+import type { User } from 'firebase/auth';
 import app from './firebase';
 import type { Event } from '../types/event';
 import { calculateEventStatus } from '../utils/eventStatus';
@@ -21,6 +24,129 @@ import { getDirectImageLink } from '../utils/driveHelper';
 export const db = getFirestore(app);
 
 const COLLECTION_NAME = 'events';
+
+// ─────────────────────────────────────────────
+// Login History
+// ─────────────────────────────────────────────
+
+export interface LoginHistoryEntry {
+  id: string;
+  uid: string;
+  email: string;
+  displayName: string;
+  photoURL: string;
+  signedInAt: Date;
+}
+
+/** Called every time a user successfully signs in — logs the session */
+export const logSignIn = async (user: User): Promise<void> => {
+  try {
+    await addDoc(collection(db, 'loginHistory'), {
+      uid: user.uid,
+      email: user.email ?? '',
+      displayName: user.displayName ?? '',
+      photoURL: user.photoURL ?? '',
+      signedInAt: serverTimestamp(),
+    });
+  } catch (err) {
+    // Non-critical — don't block the login flow
+    console.warn('Failed to log sign-in:', err);
+  }
+};
+
+/** Fetch all login history entries (admin-only) sorted newest first */
+export const getLoginHistory = async (): Promise<LoginHistoryEntry[]> => {
+  const q = query(collection(db, 'loginHistory'), orderBy('signedInAt', 'desc'));
+  const snap = await getDocs(q);
+  return snap.docs.map((d) => {
+    const data = d.data();
+    return {
+      id: d.id,
+      uid: data.uid ?? '',
+      email: data.email ?? '',
+      displayName: data.displayName ?? '',
+      photoURL: data.photoURL ?? '',
+      signedInAt: data.signedInAt?.toDate?.() ?? new Date(),
+    };
+  });
+};
+
+// ─────────────────────────────────────────────
+// Admin Management
+// ─────────────────────────────────────────────
+
+export interface AdminUser {
+  uid: string;
+  email: string;
+  displayName: string;
+  photoURL: string;
+  role: 'admin';
+  addedAt: Date;
+  addedBy: string;
+}
+
+/** Fetch all admin users from the admins collection */
+export const getAdmins = async (): Promise<AdminUser[]> => {
+  const snap = await getDocs(collection(db, 'admins'));
+  return snap.docs.map((d) => {
+    const data = d.data();
+    return {
+      uid: d.id,
+      email: data.email ?? '',
+      displayName: data.displayName ?? '',
+      photoURL: data.photoURL ?? '',
+      role: 'admin' as const,
+      addedAt: data.addedAt?.toDate?.() ?? new Date(),
+      addedBy: data.addedBy ?? '',
+    };
+  });
+};
+
+/** Grant admin role to a user by their UID */
+export const addAdmin = async (
+  uid: string,
+  email: string,
+  displayName: string,
+  photoURL: string,
+  addedByUid: string,
+): Promise<void> => {
+  await setDoc(doc(db, 'admins', uid), {
+    email,
+    displayName,
+    photoURL,
+    role: 'admin',
+    addedAt: serverTimestamp(),
+    addedBy: addedByUid,
+  });
+};
+
+/** Revoke admin role by deleting the admins document */
+export const removeAdmin = async (uid: string): Promise<void> => {
+  await deleteDoc(doc(db, 'admins', uid));
+};
+
+/** Look up a user from loginHistory by their email (to find their UID) */
+export const findUserByEmail = async (
+  email: string,
+): Promise<{ uid: string; displayName: string; photoURL: string } | null> => {
+  const q = query(collection(db, 'loginHistory'), orderBy('signedInAt', 'desc'));
+  const snap = await getDocs(q);
+  for (const d of snap.docs) {
+    const data = d.data();
+    if ((data.email ?? '').toLowerCase() === email.toLowerCase()) {
+      return {
+        uid: data.uid ?? '',
+        displayName: data.displayName ?? '',
+        photoURL: data.photoURL ?? '',
+      };
+    }
+  }
+  return null;
+};
+
+// ─────────────────────────────────────────────
+// Events
+// ─────────────────────────────────────────────
 
 // Map raw Firestore document data to our Event model interface
 const mapDocToEvent = (snapshot: QueryDocumentSnapshot<DocumentData>): Event => {

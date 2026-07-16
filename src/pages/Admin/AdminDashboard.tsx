@@ -9,6 +9,7 @@ import {
   PlusCircle,
   Settings2,
   Shield,
+  ShieldCheck,
   X,
   Users,
 } from 'lucide-react';
@@ -22,6 +23,7 @@ import NeedsFinalization from '../../components/admin/NeedsFinalization';
 import PastEvents from '../../components/admin/PastEvents';
 import RunningEvents from '../../components/admin/RunningEvents';
 import ExeComManager from '../../components/admin/ExeComManager';
+import AdminManagement from '../../components/admin/AdminManagement';
 
 
 export const AdminDashboard: React.FC = () => {
@@ -46,6 +48,7 @@ export const AdminDashboard: React.FC = () => {
     { id: 'finalization', name: 'Needs Finalization', icon: Layers },
     { id: 'past', name: 'Past Events Manager', icon: FolderArchive },
     { id: 'execom', name: 'ExeCom', icon: Users },
+    { id: 'admin-management', name: 'Admin Management', icon: ShieldCheck },
   ];
 
   const handleTabChange = (tabId: string) => {
@@ -90,6 +93,8 @@ export const AdminDashboard: React.FC = () => {
         return <PastEvents events={events} />;
       case 'execom':
         return <ExeComManager />;
+      case 'admin-management':
+        return <AdminManagement />;
       default:
         return <DashboardOverview events={events} onNavigateToTab={handleTabChange} />;
     }

@@ -2,7 +2,7 @@ import { createContext, useContext, useEffect, useState, type ReactNode } from '
 import { onAuthStateChanged, signInWithPopup, signOut, type User } from 'firebase/auth';
 import { doc, getDoc } from 'firebase/firestore';
 import { auth, googleProvider } from '../services/firebase';
-import { db } from '../services/firestore';
+import { db, logSignIn } from '../services/firestore';
 
 export type UserRole = 'admin' | 'none';
 
@@ -49,7 +49,11 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }, []);
 
   const signInWithGoogle = async () => {
-    await signInWithPopup(auth, googleProvider);
+    const result = await signInWithPopup(auth, googleProvider);
+    // Log the sign-in event to Firestore (non-blocking)
+    if (result.user) {
+      await logSignIn(result.user);
+    }
   };
 
   const logout = async () => {
